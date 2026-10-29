@@ -1,58 +1,57 @@
-# DoseQue Appointment API
+# Appointment API
 
-A REST API built with Django and Django REST Framework to create, list, and cancel appointments.
+A simple appointment management API built using Django and Django REST Framework.
 
-## Features
+## What it does
 
-- Create appointments with patient name, email, and appointment time.
-- List appointments, newest first.
-- Cancel appointments without deleting their records.
-- Validate patient names, email addresses, and future appointment times.
-- Return appropriate HTTP status codes for successful and invalid requests.
-- Automated tests for appointment creation, validation, and cancellation.
-
-## Requirements
-
-- Python 3.13+
-- pip
+- Creates an appointment with a patient name, email, and appointment time.
+- Returns a list of appointments.
+- Cancels an appointment by changing its status to `cancelled`.
+- Checks that the patient name is not empty and the appointment time is in the future.
 
 ## Setup
+
+Make sure Python is installed, then run these commands from the project directory.
+
+Create a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate the virtual environment on Windows PowerShell:
+Activate it on Windows:
 
 ```powershell
 .venv\Scripts\Activate.ps1
 ```
 
-Install dependencies:
+Install the dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Apply database migrations:
+Set up the database:
 
 ```bash
 python manage.py migrate
 ```
 
-Start the development server:
+Start the server:
 
 ```bash
 python manage.py runserver
 ```
 
-## API Endpoints
+The server runs at `http://127.0.0.1:8000/` by default.
+
+## API endpoints
 
 ### Create an appointment
 
 `POST /api/appointments/`
 
-Example JSON:
+Example request:
 
 ```json
 {
@@ -62,24 +61,24 @@ Example JSON:
 }
 ```
 
-Returns `201 Created` on success and `400 Bad Request` for invalid input.
-
 ### List appointments
 
 `GET /api/appointments/`
 
-Returns appointments ordered by creation time, newest first.
+Returns the appointments, with the newest ones first.
 
 ### Cancel an appointment
 
 `DELETE /api/appointments/<id>/`
 
-Marks an appointment as cancelled instead of deleting it. Returns `404 Not Found` if the appointment does not exist and `409 Conflict` if it is already cancelled.
+This changes the appointment status to `cancelled`. It does not delete the appointment from the database.
 
-## Run Tests
+## Tests
+
+Run the tests with:
 
 ```bash
 python manage.py test appointments
 ```
 
-The test suite covers successful creation, invalid appointment input, and cancellation.
+The current test suite checks appointment creation, invalid input, and cancellation.
